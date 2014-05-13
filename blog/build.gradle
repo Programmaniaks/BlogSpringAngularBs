@@ -1,0 +1,33 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'war'
+apply plugin: 'eclipse-wtp'
+
+jar {
+    baseName = 'blog'
+    version =  '0.0.1-SNAPSHOT'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	compile 'org.springframework:spring-webmvc:4.0.4.RELEASE'
+	compile 'org.springframework:spring-core:4.0.4.RELEASE'
+	compile 'org.springframework:spring-context:4.0.4.RELEASE'
+	compile 'org.springframework:spring-test:4.0.4.RELEASE'
+	
+	compile 'org.springframework.data:spring-data-mongodb:1.4.2.RELEASE'
+	compile 'org.springframework.data:spring-data-jpa:1.5.2.RELEASE'
+	
+	compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
+	
+	compile 'org.mongodb:mongo-java-driver:2.11.3'
+	compile group: 'com.google.guava', name: 'guava', version: '17.0'
+	
+    testCompile "junit:junit:4+"
+    
+    
+    providedCompile 'javax.servlet:servlet-api:2.5'
+}
