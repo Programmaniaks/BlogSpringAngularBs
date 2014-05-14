@@ -1,4 +1,4 @@
-package com.shinzul.blog.configuration;
+package com.shinzul.blog.test.configuration;
 
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;

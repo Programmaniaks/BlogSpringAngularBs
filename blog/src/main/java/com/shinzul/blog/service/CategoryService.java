@@ -7,6 +7,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.shinzul.blog.dao.CategoryRepository;
 import com.shinzul.blog.entity.Category;
@@ -28,6 +29,12 @@ public class CategoryService {
 	
 	public List<Category> getAllCategories() {
 		return Lists.newArrayList(getCategoryRepository().findAll());
+	}
+	
+	public Category save(Category category) {
+		Preconditions.checkNotNull(category);
+		Preconditions.checkNotNull(category.getName());
+		return getCategoryRepository().save(category);
 	}
 
 }

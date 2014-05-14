@@ -1,4 +1,4 @@
-package com.shinzul.blog.dao;
+package com.shinzul.blog.test.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -16,8 +16,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.google.common.collect.Lists;
 import com.mongodb.Mongo;
 import com.shinzul.blog.configuration.DatabaseConfig;
-import com.shinzul.blog.configuration.TestPropertyConfig;
+import com.shinzul.blog.dao.UserRepository;
 import com.shinzul.blog.entity.User;
+import com.shinzul.blog.test.configuration.TestPropertyConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { TestPropertyConfig.class, DatabaseConfig.class})

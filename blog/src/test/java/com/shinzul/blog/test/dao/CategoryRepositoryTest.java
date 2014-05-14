@@ -1,4 +1,4 @@
-package com.shinzul.blog.dao;
+package com.shinzul.blog.test.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -24,8 +24,9 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.shinzul.blog.configuration.DatabaseConfig;
-import com.shinzul.blog.configuration.TestPropertyConfig;
+import com.shinzul.blog.dao.CategoryRepository;
 import com.shinzul.blog.entity.Category;
+import com.shinzul.blog.test.configuration.TestPropertyConfig;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -119,7 +120,6 @@ public class CategoryRepositoryTest {
      */
     @Test
     public void testDelete() {
-        
         Category category = new Category();
         category.setName("TestCat");
         
@@ -132,6 +132,13 @@ public class CategoryRepositoryTest {
         Category categoryRetrieved = categoryRepository.findOne(savedId);
         
         Assert.assertNull(categoryRetrieved);
+    }
+    
+    @Test
+    public void testFindByName() {
+    	List<Category> result = categoryRepository.findByName("Dev");
+    	
+    	assertEquals(1, result.size());
     }
     
     
