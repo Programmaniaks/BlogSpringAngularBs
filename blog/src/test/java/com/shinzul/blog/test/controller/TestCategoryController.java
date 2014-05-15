@@ -1,6 +1,6 @@
 package com.shinzul.blog.test.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -27,11 +27,10 @@ import org.springframework.web.context.WebApplicationContext;
 import com.shinzul.blog.configuration.WebConfig;
 import com.shinzul.blog.entity.Category;
 import com.shinzul.blog.service.CategoryService;
-import com.shinzul.blog.test.configuration.MockDatabaseConfig;
 import com.shinzul.blog.test.configuration.MockServiceConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { MockServiceConfig.class, WebConfig.class, MockDatabaseConfig.class })
+@ContextConfiguration(classes = { MockServiceConfig.class, WebConfig.class})
 @WebAppConfiguration
 public class TestCategoryController {
 
@@ -80,6 +79,7 @@ public class TestCategoryController {
 		assertEquals(expCat, returnCat);
 
 		verify(mockCategoryService, times(1)).save(first);
+		Mockito.verifyZeroInteractions(mockCategoryService);
 	}
 
 }
