@@ -23,6 +23,12 @@ public class Category implements Serializable {
 	public Category() {
 		super();
 	}
+	
+	public Category(BigInteger id, String name) {
+		this();
+		this.id = id;
+		this.name = name;
+	}
 
 	public BigInteger getId() {
 		return id;

@@ -136,9 +136,8 @@ public class CategoryRepositoryTest {
     
     @Test
     public void testFindByName() {
-    	List<Category> result = categoryRepository.findByName("Dev");
-    	
-    	assertEquals(1, result.size());
+    	Category result = categoryRepository.findByName("Dev");
+    	assertNotNull(result);
     }
     
     
