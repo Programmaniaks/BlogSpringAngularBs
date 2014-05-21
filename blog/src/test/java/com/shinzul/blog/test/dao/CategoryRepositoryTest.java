@@ -147,8 +147,7 @@ public class CategoryRepositoryTest {
      */
     @After
     public void after() {
- 
-        mongo.dropDatabase("test");
+        mongo.dropDatabase(databaseName);
     }
 
 }

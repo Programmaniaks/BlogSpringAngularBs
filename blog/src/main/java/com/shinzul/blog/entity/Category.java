@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.Objects;
@@ -18,6 +19,7 @@ public class Category implements Serializable {
 	
 	@Id
 	private BigInteger id;
+	@Indexed(unique=true)
 	private String name;
 	
 	public Category() {

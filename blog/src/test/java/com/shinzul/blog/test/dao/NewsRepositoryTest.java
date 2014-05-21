@@ -1,11 +1,5 @@
 package com.shinzul.blog.test.dao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.util.List;
-
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,21 +11,28 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.google.common.collect.Lists;
 import com.mongodb.Mongo;
 import com.shinzul.blog.configuration.DatabaseConfig;
+import com.shinzul.blog.dao.CategoryRepository;
+import com.shinzul.blog.dao.NewsRepository;
 import com.shinzul.blog.dao.UserRepository;
+import com.shinzul.blog.entity.Category;
+import com.shinzul.blog.entity.News;
 import com.shinzul.blog.entity.User;
 import com.shinzul.blog.test.configuration.TestPropertyConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { TestPropertyConfig.class, DatabaseConfig.class})
-public class UserRepositoryTest {
+public class NewsRepositoryTest {
+
+	@Autowired
+	NewsRepository newsRepository;
+	
+	@Autowired
+	UserRepository userRepository;
+	
+	@Autowired
+	CategoryRepository categoryRepository;
 	
 	/**
-     * Spring Data Repository
-     */
-    @Autowired
-    UserRepository userRepository;
- 
-    /**
      * MongoDB Java client
      */
     @Autowired
@@ -58,29 +59,29 @@ public class UserRepositoryTest {
      * Spring Data : Create and search Category in MongoDB
      */
     @Test
-    public void testInsert() {
+    public void testDBRefExecution() {
  
         User user = new User();
         user.setUsername("Test");
         user.setPassword("test");
         
-        userRepository.save(user);
- 
-        Iterable<User> iterable = userRepository.findAll();
- 
-        List<User> categories = Lists.newArrayList(iterable);
+//        user = userRepository.save(user);
         
-        assertNotNull(user.getId());
-        assertEquals(1, categories.size());
- 
+        Category cat = new Category();
+        cat.setName("TestCat");
+//        cat = categoryRepository.save(cat);
+        
+        News news = new News();
+        news.setAuthor(user);
+        news.setCategory(cat);
+        news.setContent("YOLO");
+        news.setTags(Lists.newArrayList("test", "test1"));
+        news.setTitle("TestTitle");
+        
+        news = newsRepository.save(news);
+        System.out.println(news);
+        
+//        user.setUsername("Test2");
+//        userRepository.save(user);
     }
-    
-    /**
-     * Clean MongoDB with Java client
-     */
-    @After
-    public void after() {
-        mongo.dropDatabase(databaseName);
-    }
-
 }

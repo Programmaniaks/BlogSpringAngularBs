@@ -1,18 +1,24 @@
-package com.shinzul.blog.dao;
+package com.shinzul.blog.service;
 
 import java.math.BigInteger;
 import java.util.List;
 
-import org.springframework.data.repository.CrudRepository;
-
 import com.shinzul.blog.entity.User;
 
-public interface UserRepository extends CrudRepository<User, BigInteger>{
+public interface UserService {
+	
+	public List<User> findAll();
+	
+	public User save(User user);
+
+	public User update(User user);
+
+	public User findById(BigInteger id);
 
 	public User findByUsername(String username);
 	
 	public List<User> findByEmail(String email);
 
 	public void delete(BigInteger id);
-	
+
 }
