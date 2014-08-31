@@ -21,6 +21,9 @@ public class DatabaseConfig {
 	@Value("${datasource.dbname}")
 	private String databaseName;
 	
+	@Value("${datasource.host}")
+	private String databaseHost;
+	
 	
 	public String getDatabaseName() {
 		return databaseName;
@@ -30,9 +33,17 @@ public class DatabaseConfig {
 		this.databaseName = databaseName;
 	}
 	
+	public String getDatabaseHost() {
+		return databaseHost;
+	}
+
+	public void setDatabaseHost(String databaseHost) {
+		this.databaseHost = databaseHost;
+	}
+
 	@Bean
 	public Mongo mongoClient() throws UnknownHostException {
-		return new MongoClient();
+		return new MongoClient(getDatabaseHost());
 	}
 
 	@Bean
