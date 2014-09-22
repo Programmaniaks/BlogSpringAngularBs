@@ -65,11 +65,11 @@ public class NewsRepositoryTest {
         user.setUsername("Test");
         user.setPassword("test");
         
-//        user = userRepository.save(user);
+        user = userRepository.save(user);
         
         Category cat = new Category();
         cat.setName("TestCat");
-//        cat = categoryRepository.save(cat);
+        cat = categoryRepository.save(cat);
         
         News news = new News();
         news.setAuthor(user);

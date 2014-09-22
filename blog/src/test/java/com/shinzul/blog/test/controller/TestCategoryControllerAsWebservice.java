@@ -63,7 +63,7 @@ public class TestCategoryControllerAsWebservice {
 		
 		when(mockCategoryService.save(newObject)).thenReturn(new Category(new BigInteger("0"), "Test"));
 		
-		String expectedReturn = "{\"id\":0,\"name\":\"Test\"}";
+		String expectedReturn = "{\"id\":\"0\",\"name\":\"Test\"}";
 		
 		MvcResult result = mockMvc
 				.perform(
@@ -85,13 +85,13 @@ public class TestCategoryControllerAsWebservice {
 		
 		when(mockCategoryService.update(newObject)).thenReturn(new Category(new BigInteger("0"), "Test1"));
 		
-		String expectedReturn = "{\"id\":0,\"name\":\"Test1\"}";
+		String expectedReturn = "{\"id\":\"0\",\"name\":\"Test1\"}";
 		
 		MvcResult result = mockMvc
 				.perform(
 						put("/category/").contentType(
 								MediaType.APPLICATION_JSON).content(
-										"{\"id\":0,\"name\":\"Test1\"}"))
+										"{\"id\":\"0\",\"name\":\"Test1\"}"))
 				.andExpect(status().isOk())
 				.andReturn();
 
@@ -109,7 +109,7 @@ public class TestCategoryControllerAsWebservice {
 
 		when(mockCategoryService.findAll()).thenReturn(expectedResult);
 		
-		String expectedReturn = "[{\"id\":0,\"name\":\"Test\"},{\"id\":0,\"name\":\"Test\"}]";
+		String expectedReturn = "[{\"id\":\"0\",\"name\":\"Test\"},{\"id\":\"0\",\"name\":\"Test\"}]";
 		
 		MvcResult result = mockMvc
 				.perform(
@@ -129,7 +129,7 @@ public class TestCategoryControllerAsWebservice {
 		BigInteger testedArgument = new BigInteger("0");
 		when(mockCategoryService.findById(testedArgument)).thenReturn(new Category(new BigInteger("0"), "Test"));
 		
-		String expectedReturn = "{\"id\":0,\"name\":\"Test\"}";
+		String expectedReturn = "{\"id\":\"0\",\"name\":\"Test\"}";
 		
 		MvcResult result = mockMvc
 				.perform(
@@ -148,7 +148,7 @@ public class TestCategoryControllerAsWebservice {
 		String testedArgument = new String("Test");
 		when(mockCategoryService.findByName(testedArgument)).thenReturn(new Category(new BigInteger("0"), "Test"));
 		
-		String expectedReturn = "{\"id\":0,\"name\":\"Test\"}";
+		String expectedReturn = "{\"id\":\"0\",\"name\":\"Test\"}";
 		
 		MvcResult result = mockMvc
 				.perform(

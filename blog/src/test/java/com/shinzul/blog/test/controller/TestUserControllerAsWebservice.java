@@ -12,14 +12,17 @@ import java.math.BigInteger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.shinzul.blog.entity.User;
 import com.shinzul.blog.service.UserService;
 
+@RunWith(SpringJUnit4ClassRunner.class)
 public class TestUserControllerAsWebservice extends AbstractWebserviceTest {
 
 	@Autowired
@@ -48,7 +51,7 @@ public class TestUserControllerAsWebservice extends AbstractWebserviceTest {
 		userReturn.setEmail("shinzul@programmaniaks.com");
 
 		when(userService.connect(user)).thenReturn(userReturn);
-		String expectedReturn = "{\"id\":" + userReturn.getId() + ",\"username\":\""
+		String expectedReturn = "{\"id\":\"" + userReturn.getId() + "\",\"username\":\""
 				+ userReturn.getUsername() + "\",\"password\":\"" + userReturn.getPassword()
 				+ "\",\"email\":\"" + userReturn.getEmail() + "\"}";
 
