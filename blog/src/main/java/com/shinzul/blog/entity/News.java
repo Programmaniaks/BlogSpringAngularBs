@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.shinzul.blog.jackson.BigIntegerAsStringSerializer;
+import com.shinzul.blog.jackson.DateAsStringSerializer;
 
 @Document
 public class News implements Serializable {
@@ -36,6 +37,7 @@ public class News implements Serializable {
 	private String content;
 	@Indexed
 	private List<String> tags;
+	@JsonSerialize(using=DateAsStringSerializer.class)
 	private Date creationDate;
 	
 	public News() {
