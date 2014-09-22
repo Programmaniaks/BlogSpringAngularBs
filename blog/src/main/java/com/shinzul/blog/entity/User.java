@@ -7,7 +7,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Objects;
+import com.shinzul.blog.jackson.BigIntegerAsStringSerializer;
 
 @Document
 public class User implements Serializable {
@@ -18,6 +20,7 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@JsonSerialize(using=BigIntegerAsStringSerializer.class)
 	private BigInteger id;
 	@Indexed(unique=true)
 	private String username;

@@ -1,0 +1,18 @@
+<div ng-src="news">
+	<!-- blog entry -->
+	<h1>
+		{{news.title}}
+	</h1>
+	<p class="lead">
+		by <a href="">{{news.author.username}}</a>
+	</p>
+	<hr>
+	<p>
+		<span class="glyphicon glyphicon-time"></span> Posted on
+		{{news.creationDate}}
+	</p>
+	<hr>
+	<!--  <img src="http://placehold.it/900x300" class="img-responsive"> -->
+	<hr>
+	<p>{{news.content}}</p>
+</div>

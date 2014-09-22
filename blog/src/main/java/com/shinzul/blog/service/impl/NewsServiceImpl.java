@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Preconditions;
@@ -15,12 +16,12 @@ import com.shinzul.blog.entity.Category;
 import com.shinzul.blog.entity.News;
 import com.shinzul.blog.entity.User;
 import com.shinzul.blog.service.CategoryService;
-import com.shinzul.blog.service.NewsServices;
+import com.shinzul.blog.service.NewsService;
 import com.shinzul.blog.service.UserService;
 
 @Service
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-public class NewsServiceImpl implements NewsServices {
+public class NewsServiceImpl implements NewsService {
 	
 	@Autowired
 	private CategoryService categoryService;
@@ -58,6 +59,13 @@ public class NewsServiceImpl implements NewsServices {
 	@Override
 	public List<News> findAll() {
 		return Lists.newArrayList(getNewsRepository().findAll());
+	}
+	
+	@Override
+	public List<News> findOrderByCreationDatePageable(int page, int size) {
+		PageRequest pageable = new PageRequest(page, size);
+		// TODO : Gestion de la creation date
+		return Lists.newArrayList(getNewsRepository().findAll(pageable));
 	}
 	
 	@Override

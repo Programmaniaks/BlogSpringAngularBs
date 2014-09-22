@@ -2,6 +2,7 @@ package com.shinzul.blog.entity;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -9,8 +10,10 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
+import com.shinzul.blog.jackson.BigIntegerAsStringSerializer;
 
 @Document
 public class News implements Serializable {
@@ -21,6 +24,7 @@ public class News implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@JsonSerialize(using=BigIntegerAsStringSerializer.class)
 	private BigInteger id;
 	private String title;
 	@DBRef
@@ -32,6 +36,7 @@ public class News implements Serializable {
 	private String content;
 	@Indexed
 	private List<String> tags;
+	private Date creationDate;
 	
 	public News() {
 		super();
@@ -44,6 +49,14 @@ public class News implements Serializable {
 
 	public void setId(BigInteger id) {
 		this.id = id;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	public String getTitle() {

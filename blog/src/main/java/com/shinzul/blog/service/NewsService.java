@@ -7,9 +7,11 @@ import com.shinzul.blog.entity.Category;
 import com.shinzul.blog.entity.News;
 import com.shinzul.blog.entity.User;
 
-public interface NewsServices {
+public interface NewsService {
 	
 	public List<News> findAll();
+	
+	public List<News> findOrderByCreationDatePageable(int page, int size);
 	
 	public News save(News news);
 
