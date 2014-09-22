@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.shinzul.blog.service.CategoryService;
 import com.shinzul.blog.service.NewsService;
+import com.shinzul.blog.service.UserService;
 
 @Configuration
 public class MockServiceConfig {
@@ -20,4 +21,9 @@ public class MockServiceConfig {
 		return Mockito.mock(NewsService.class);
 	}
 	
+	@Bean
+	public UserService mockUserService() {
+		return Mockito.mock(UserService.class);
+	}
+
 }

@@ -7,12 +7,12 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.shinzul.blog.entity.User;
 
-public interface UserRepository extends CrudRepository<User, BigInteger>{
+public interface UserRepository extends CrudRepository<User, BigInteger> {
 
 	public User findByUsername(String username);
-	
+
+	public User findByUsernameAndPassword(String username, String password);
+
 	public List<User> findByEmail(String email);
 
-	public void delete(BigInteger id);
-	
 }

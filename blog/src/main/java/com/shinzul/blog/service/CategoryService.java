@@ -7,9 +7,8 @@ import com.shinzul.blog.entity.Category;
 
 public interface CategoryService {
 
-	
 	public List<Category> findAll();
-	
+
 	public Category save(Category category);
 
 	public Category update(Category category);

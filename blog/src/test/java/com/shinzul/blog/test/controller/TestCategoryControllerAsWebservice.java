@@ -32,11 +32,10 @@ import com.google.common.collect.Lists;
 import com.shinzul.blog.configuration.WebConfig;
 import com.shinzul.blog.entity.Category;
 import com.shinzul.blog.service.CategoryService;
-import com.shinzul.blog.test.configuration.MockDatabaseConfig;
 import com.shinzul.blog.test.configuration.MockServiceConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { MockServiceConfig.class, MockDatabaseConfig.class, WebConfig.class})
+@ContextConfiguration(classes = { MockServiceConfig.class, WebConfig.class})
 @WebAppConfiguration
 public class TestCategoryControllerAsWebservice {
 

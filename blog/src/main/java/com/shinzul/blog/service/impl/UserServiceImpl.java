@@ -16,7 +16,7 @@ import com.shinzul.blog.service.UserService;
 @Service
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class UserServiceImpl implements UserService {
-	
+
 	@Autowired
 	private UserRepository userRepository;
 
@@ -61,6 +61,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void delete(BigInteger id) {
 		getUserRepository().delete(id);
+	}
+
+	@Override
+	public User connect(User user) {
+		User userFound = getUserRepository().findByUsernameAndPassword(user.getUsername(),
+				user.getPassword());
+		return userFound;
 	}
 
 }

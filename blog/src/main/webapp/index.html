@@ -105,6 +105,25 @@
                     </div>
                     <!-- /input-group -->
                 </div>
+                
+                <div class="well" ng-controller="UserController">
+                    <h4>Connect :</h4>
+                    <div class="input-group" ng-show="user==undefined">
+                    	username :<input type="text" ng-model="login" class="form-control">
+                    	password :<input type="password" ng-model="password" class="form-control">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" ng-click="connect()">
+                            </button>
+                        </span>
+                       
+                    </div>
+                    <div  ng-hide="user==undefined">
+                    <span>Hello {{user.username}}</span>
+                    <br/>
+                     <span>{{user.email}}</span>
+                    </div>
+                    <!-- /input-group -->
+                </div>
                 <!-- /well -->
                 <div class="well">
                     <h4>Popular Blog Categories</h4>
