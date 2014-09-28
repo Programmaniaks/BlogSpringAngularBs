@@ -41,10 +41,10 @@
 			<param-name>contextClass</param-name>
 			<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
 		</init-param>
-		<init-param>
+		<!-- <init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>com.shinzul.blog.configuration.WebConfig</param-value>
-		</init-param>
+		</init-param> -->
 		<init-param>
 			<param-name>spring.profiles.active</param-name>
 			<param-value>dev</param-value>

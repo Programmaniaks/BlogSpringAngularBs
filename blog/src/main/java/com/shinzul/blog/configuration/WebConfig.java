@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = { "com.shinzul.blog.controller",
+@ComponentScan(basePackages = {"com.shinzul.blog.controller",
 		"com.shinzul.blog.development" })
 public class WebConfig extends WebMvcConfigurerAdapter {
 

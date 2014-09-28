@@ -35,6 +35,7 @@ public class CategoryController {
 	}
 	
 	@RequestMapping(value="/all", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public List<Category> findAll() {
 		return getService().findAll();
@@ -62,6 +63,7 @@ public class CategoryController {
 	@RequestMapping(value="/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
+	@Secured(value="ROLE_ADMIN")
 	public Category findById(@PathVariable("id") BigInteger id) {
 		Preconditions.checkNotNull(id);
 		return getService().findById(id);
