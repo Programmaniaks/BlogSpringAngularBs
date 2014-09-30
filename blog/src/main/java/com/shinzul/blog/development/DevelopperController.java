@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.google.common.collect.Lists;
 import com.mongodb.Mongo;
 import com.shinzul.blog.configuration.DatabaseConfig;
 import com.shinzul.blog.dao.CategoryRepository;
@@ -48,6 +49,13 @@ public class DevelopperController {
 		user.setUsername("Shinzul");
 		user.setPassword("test");
 		user.setEmail("francois.teychene@gmail.com");
+		user.setRoles(Lists.newArrayList("ROLE_USER", "ROLE_ADMIN"));
+		
+		User user2 = new User();
+		user2.setUsername("Malika");
+		user2.setPassword("test");
+		user2.setEmail("charlotte.cavalier@gmail.com");
+		user2.setRoles(Lists.newArrayList("ROLE_USER"));
 		
 		
 		Category devCategory = new Category();
@@ -76,6 +84,7 @@ public class DevelopperController {
 		categoryDao.save(utilCatgory);
 		
 		userDao.save(user);
+		userDao.save(user2);
 		
 		newsDao.save(news1);
 		newsDao.save(news2);

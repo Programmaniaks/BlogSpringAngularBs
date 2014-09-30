@@ -2,6 +2,7 @@ package com.shinzul.blog.entity;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -9,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Objects;
+import com.google.common.collect.Lists;
 import com.shinzul.blog.jackson.BigIntegerAsStringSerializer;
 
 @Document
@@ -26,6 +28,7 @@ public class User implements Serializable {
 	private String username;
 	private String password;
 	private String email;
+	private List<String> roles = Lists.newArrayList();
 	
 	public User() {
 		super();
@@ -63,9 +66,17 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
+	public List<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(this.id, this.username, this.password, this.email);
+		return Objects.hashCode(this.id, this.username, this.password, this.email, this.roles);
 	}
 
 	@Override
@@ -80,7 +91,8 @@ public class User implements Serializable {
 		return Objects.equal(this.id, other.id) 
 				&& Objects.equal(this.username, other.username)
 				&& Objects.equal(this.password, other.password)
-				&& Objects.equal(this.email, other.email);
+				&& Objects.equal(this.email, other.email)
+				&& Objects.equal(this.roles, other.roles);
 	}
 	
 	@Override
@@ -90,6 +102,7 @@ public class User implements Serializable {
 				.addValue(this.username)
 				.addValue(this.password)
 				.addValue(this.email)
+				.addValue(this.roles)
 				.toString();
 	}
 	

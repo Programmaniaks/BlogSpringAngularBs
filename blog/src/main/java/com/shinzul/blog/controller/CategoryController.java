@@ -37,6 +37,7 @@ public class CategoryController {
 	@RequestMapping(value="/all", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
+	@Secured(value={"ROLE_USER"})
 	public List<Category> findAll() {
 		return getService().findAll();
 	}
