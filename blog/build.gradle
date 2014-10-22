@@ -11,6 +11,13 @@ jar {
 repositories {
     mavenCentral()
 }
+eclipse {
+	classpath {
+	    //default settings for downloading sources and Javadoc:
+	    downloadSources = true
+	    downloadJavadoc = false
+  	}
+}
 
 dependencies {
 	compile 'org.springframework:spring-webmvc:4.0.4.RELEASE'
