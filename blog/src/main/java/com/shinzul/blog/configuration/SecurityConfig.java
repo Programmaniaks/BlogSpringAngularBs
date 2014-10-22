@@ -21,7 +21,7 @@ import com.shinzul.blog.security.UserDetailsServiceImpl;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private static final String PROGRAMMANIAK_USER_REALM = "Programmaniaks-Blog";
-	private static final String DIGEST_KEY = "Programmaniaks-Blog";
+	private static final String DIGEST_KEY = "4aE!q$6sy_P8è";
 	
 //	@Autowired
 //	private UserAuthenticationProvider authenticationProvider;
