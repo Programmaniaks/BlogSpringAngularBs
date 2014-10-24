@@ -19,7 +19,7 @@
 </head>
 <body>
 
-	<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+	<!-- <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header page-scroll">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
@@ -30,10 +30,10 @@
                 </a>
             </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
+            Collect the nav links, forms, and other content for toggling
             <div class="collapse navbar-collapse navbar-right navbar-main-collapse" ng-controller="CategoryController">
                 <ul class="nav navbar-nav">
-                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    Hidden li included to remove active class from about link when scrolled up past about section
                     <li class="hidden">
                         <a href="#page-top"></a>
                     </li>
@@ -43,7 +43,11 @@
                 </ul>
             </div>
         </div>
+    </nav> -->
+    <nav ng-controller="NavigationController" ng-include="componentPath"
+    	class="navbar navbar-custom navbar-fixed-top" role="navigation">
     </nav>
+    
     
     <div id="headerCaroussel" class="carousel slide">
         <!-- Indicators -->
@@ -85,14 +89,11 @@
     </div>
 
 <div style="background-color:#ddd">
-	<div class="container" style="margin-top:15px; background-color:#fff">
+	<div class="container-fluid" style="margin-top:15px; background-color:#fff">
 
-        <div class="row">
-            <div class="col-lg-8"  ng-view>
-            	
-            </div>
-
-            <div class="col-lg-4">
+        <div class="row-fluid">
+        
+        	 <div class="col-lg-3">
                 <div class="well">
                     <h4>Blog Search</h4>
                     <div class="input-group">
@@ -162,6 +163,13 @@
                 <!-- /well -->
             </div>
         </div>
+        
+        
+           <div class="col-lg-8 offset-1"  ng-view>
+            	
+            </div>
+
+           
 
         <hr>
 
@@ -185,7 +193,7 @@
 	<script src="lib/angular/angular-route.js"></script>
 	<script src="app/blog.js"></script>
 	<script src="app/service/CategoryService.js"></script>
-	<script src="app/controller/CategoryController.js"></script>
+	<script src="app/controller/NavigationController.js"></script>
 	<script src="app/controller/NewsController.js"></script>
 	<script src="app/controller/PageNewsController.js"></script>
 	<script src="app/controller/UserController.js"></script>

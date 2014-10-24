@@ -1,0 +1,32 @@
+<div class="container">
+
+	<div class="navbar-header navbar-left page-scroll">
+		<button type="button" class="navbar-toggle" data-toggle="collapse"
+			data-target=".navbar-main-collapse">
+			<i class="fa fa-bars"></i>
+		</button>
+		<a class="navbar-brand" href="#page-top"> <span class="light">Programmaniaks</span>
+		</a>
+	</div>
+	
+	<!-- Collect the nav links, forms, and other content for toggling -->
+	<div class="collapse navbar-collapse navbar-left navbar-main-collapse">
+		<ul class="nav navbar-nav">
+			<!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+			<li class="hidden"><a href="#page-top"></a></li>
+			<li class="page-scroll" ng-repeat="category in categories"><a
+				href="#">{{category.name}}</a></li>
+		</ul>
+	</div>
+	
+	<form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+        	<input type="text" class="form-control" placeholder="Search">
+         	<button ng-click="search()" type="submit" class="btn btn-primary">
+			  <i class="glyphicon glyphicon-search"></i> 
+			</button>
+        </div>
+     </form>
+	
+	
+</div>
