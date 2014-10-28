@@ -2,4 +2,5 @@ angular.module('blogApp').controller('GlobalController', ['$scope', '$log', func
     $scope.categories = [];
     
     $scope.isAdmin = true;
+    $scope.leftIndex = true;
 }]);

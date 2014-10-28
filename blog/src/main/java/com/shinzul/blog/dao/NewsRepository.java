@@ -9,7 +9,7 @@ import com.shinzul.blog.entity.Category;
 import com.shinzul.blog.entity.News;
 import com.shinzul.blog.entity.User;
 
-public interface NewsRepository extends PagingAndSortingRepository<News, BigInteger> {
+public interface NewsRepository extends PagingAndSortingRepository<News, BigInteger>, NewsCustomRepository {
 	
 	public List<News> findByTitle(String title);
 	

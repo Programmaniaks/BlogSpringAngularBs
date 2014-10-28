@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -27,6 +28,7 @@ public class News implements Serializable {
 	@Id
 	@JsonSerialize(using=BigIntegerAsStringSerializer.class)
 	private BigInteger id;
+	@TextIndexed(weight=3)
 	private String title;
 	@DBRef
 	@Indexed
@@ -34,8 +36,10 @@ public class News implements Serializable {
 	@DBRef
 	@Indexed
 	private Category category;
+	@TextIndexed(weight=1)
 	private String content;
 	@Indexed
+	@TextIndexed(weight=2)
 	private List<String> tags;
 	@JsonSerialize(using=DateAsStringSerializer.class)
 	private Date creationDate;

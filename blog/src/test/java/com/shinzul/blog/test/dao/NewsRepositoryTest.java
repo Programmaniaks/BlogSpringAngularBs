@@ -1,5 +1,8 @@
 package com.shinzul.blog.test.dao;
 
+import static org.junit.Assert.assertEquals;
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,14 +56,7 @@ public class NewsRepositoryTest {
         mongo.dropDatabase(databaseName);
         // Create database
         mongo.getDB(databaseName);
-    }
-    
-    /**
-     * Spring Data : Create and search Category in MongoDB
-     */
-    @Test
-    public void testDBRefExecution() {
- 
+        
         User user = new User();
         user.setUsername("Test");
         user.setPassword("test");
@@ -70,16 +66,28 @@ public class NewsRepositoryTest {
         Category cat = new Category();
         cat.setName("TestCat");
         cat = categoryRepository.save(cat);
+    }
+    
+    /**
+     * Spring Data : Create and search Category in MongoDB
+     */
+    @Test
+    public void testDBRefExecution() {
+    	User user = userRepository.findByUsername("Test");
+    	Category category = categoryRepository.findByName("TestCat");
         
         News news = new News();
         news.setAuthor(user);
-        news.setCategory(cat);
+        news.setCategory(category);
         news.setContent("YOLO");
         news.setTags(Lists.newArrayList("test", "test1"));
         news.setTitle("TestTitle");
         
         news = newsRepository.save(news);
-        System.out.println(news);
+        
+        assertEquals(category, news.getCategory());
+        assertEquals(user, news.getAuthor());
+        
         
 //        user.setUsername("Test2");
 //        userRepository.save(user);

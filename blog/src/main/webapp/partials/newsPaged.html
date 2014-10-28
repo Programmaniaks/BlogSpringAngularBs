@@ -1,32 +1,32 @@
-<div >
-	<div ng-repeat="new in news">
-		<!-- blog entry -->
-		<h1>
-			<a href="#/news/{{new.id}}">{{new.title}}</a>
-		</h1>
-		<p class="lead">
-			by <a href="">{{new.author.username}}</a>
-		</p>
-		<hr>
-		<p>
-			<span class="glyphicon glyphicon-time"></span> Posted on
-			{{new.creationDate}}
-		</p>
-		<hr>
-		<!--  <img src="http://placehold.it/900x300" class="img-responsive"> -->
-		<hr>
-		<p>{{new.content}}</p>
-		<a class="btn btn-primary" href="#/news/{{new.id}}">Read More <span
-			class="glyphicon glyphicon-chevron-right"></span></a>
 
-		<hr>
-	</div>
-
-	<!-- pager -->
-	<ul class="pager">
-		<li class="previous" ng-if="page > 0"><a ng-click="previous()">&larr;
-				Newer</a></li>
-		<li class="next" ng-if="news.length == pageSize"><a href=""
-			ng-click="next()">Older &rarr;</a></li>
-	</ul>
+<div ng-repeat="new in news">
+	<!-- blog entry -->
+	<h1>
+		<a href="#/news/{{new.id}}">{{new.title}}</a>
+	</h1>
+	<span class="lead">
+		by <a href="">{{new.author.username}}</a>
+	</span>
+	<span class="pull-right news-creationdate"><span class="glyphicon glyphicon-time"></span> Posted on {{new.creationDate}}</span>
+	<hr>
+	<p>{{new.content}}</p>
+	
+	<p>
+		<a class="btn btn-primary" href="#/news/{{new.id}}">
+			Read More <span class="glyphicon glyphicon-chevron-right"></span>
+		</a>
+		
+	</p>
+	<hr>
+	
 </div>
+
+<!-- pager -->
+<ul class="pager">
+	<li class="previous" ng-if="page > 0">
+		<a ng-click="previous()">&larr;Newer</a>
+	</li>
+	<li class="next" ng-if="news.length == pageSize">
+		<a ng-click="next()">Older &rarr;</a>
+	</li>
+</ul>
