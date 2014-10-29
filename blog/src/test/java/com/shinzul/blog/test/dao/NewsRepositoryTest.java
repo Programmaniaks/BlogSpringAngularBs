@@ -1,13 +1,19 @@
 package com.shinzul.blog.test.dao;
 
 import static org.junit.Assert.assertEquals;
-import junit.framework.Assert;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.core.index.MongoPersistentEntityIndexResolver;
+import org.springframework.data.mongodb.core.index.MongoPersistentEntityIndexResolver.IndexDefinitionHolder;
+import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -23,73 +29,258 @@ import com.shinzul.blog.entity.User;
 import com.shinzul.blog.test.configuration.TestPropertyConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { TestPropertyConfig.class, DatabaseConfig.class})
+@ContextConfiguration(classes = { TestPropertyConfig.class,
+		DatabaseConfig.class })
 public class NewsRepositoryTest {
 
 	@Autowired
 	NewsRepository newsRepository;
-	
 	@Autowired
 	UserRepository userRepository;
-	
 	@Autowired
 	CategoryRepository categoryRepository;
-	
+
 	/**
-     * MongoDB Java client
-     */
-    @Autowired
-    Mongo mongo;
-    
-    /**
-     * MongoDb Database name determined by test resource {@link TestPropertyConfig}
-     */
-    @Value("${datasource.dbname}")
-    String databaseName;
-    
-    /**
-     * Initialize MongoDB with Java client
-     */
-    @Before
-    public void setUp() throws Exception {
-        // Drop database
-        mongo.dropDatabase(databaseName);
-        // Create database
-        mongo.getDB(databaseName);
-        
-        User user = new User();
-        user.setUsername("Test");
-        user.setPassword("test");
-        
-        user = userRepository.save(user);
-        
-        Category cat = new Category();
-        cat.setName("TestCat");
-        cat = categoryRepository.save(cat);
-    }
-    
-    /**
-     * Spring Data : Create and search Category in MongoDB
-     */
-    @Test
-    public void testDBRefExecution() {
-    	User user = userRepository.findByUsername("Test");
-    	Category category = categoryRepository.findByName("TestCat");
-        
-        News news = new News();
-        news.setAuthor(user);
-        news.setCategory(category);
-        news.setContent("YOLO");
-        news.setTags(Lists.newArrayList("test", "test1"));
-        news.setTitle("TestTitle");
-        
-        news = newsRepository.save(news);
-        
-        assertEquals(category, news.getCategory());
-        assertEquals(user, news.getAuthor());
-        
-        
-//        user.setUsername("Test2");
-//        userRepository.save(user);
-    }
+	 * MongoDB Java client
+	 */
+	@Autowired
+	Mongo mongo;
+	@Autowired
+	MongoDbFactory mongoDbFactory;
+	@Autowired
+	MongoMappingContext mongoMappingContext;
+
+	/**
+	 * MongoDb Database name determined by test resource
+	 * {@link TestPropertyConfig}
+	 */
+	@Value("${datasource.dbname}")
+	String databaseName;
+
+	User user;
+	Category category;
+
+	/**
+	 * Initialize MongoDB with Java client
+	 */
+	@Before
+	public void setUp() throws Exception {
+		// Drop database
+		mongo.dropDatabase(databaseName);
+		// Create database
+		mongo.getDB(databaseName);
+
+		User userTmp = new User();
+		userTmp.setUsername("username");
+		userTmp.setPassword("password");
+
+		user = userRepository.save(userTmp);
+
+		Category categoryTmp = new Category();
+		categoryTmp.setName("category");
+		category = categoryRepository.save(categoryTmp);
+	}
+
+	public void testSave() {
+		News news = new News();
+		news.setAuthor(user);
+		news.setCategory(category);
+		news.setContent("undefined content");
+		news.setTags(Lists.newArrayList("tag1", "tag2"));
+		news.setTitle("TestTitle");
+
+		news = newsRepository.save(news);
+
+		assertNotNull(news.getId());
+	}
+
+	public void testModify() {
+		News expected = new News();
+		expected.setAuthor(user);
+		expected.setCategory(category);
+		expected.setContent("undefined content");
+		expected.setTags(Lists.newArrayList("tag1", "tag2"));
+		expected.setTitle("TestTitle");
+
+		expected = newsRepository.save(expected);
+
+		expected.setTitle("ModifiedTitle");
+		expected = newsRepository.save(expected);
+		
+		News actual = newsRepository.findOne(expected.getId());
+
+		assertEquals(expected, actual);
+	}
+
+	/**
+	 * Spring Data : Create and search Category in MongoDB
+	 */
+	@Test
+	public void testDBRefExecution() {
+
+		News news = new News();
+		news.setAuthor(user);
+		news.setCategory(category);
+		news.setContent("undefined content");
+		news.setTags(Lists.newArrayList("tag1", "tag2"));
+		news.setTitle("TestTitle");
+
+		news = newsRepository.save(news);
+
+		news = newsRepository.findOne(news.getId());
+		assertEquals(category, news.getCategory());
+		assertEquals(user, news.getAuthor());
+
+		category.setName("categoryUpdated");
+		categoryRepository.save(category);
+
+		news = newsRepository.findOne(news.getId());
+		assertEquals(category, news.getCategory());
+	}
+
+	@Test
+	public void testFindByTextIndexation_FindOneByTitle() {
+		// Regenerate text index in Mongo (due to drop and recreate Mongo
+		// database for each tests)
+		createMongoIndexForClass(News.class);
+
+		News news1 = new News();
+		news1.setAuthor(user);
+		news1.setCategory(category);
+		news1.setContent("Content news1");
+		news1.setTags(Lists.newArrayList("tag1", "tag2"));
+		news1.setTitle("Title1");
+		news1 = newsRepository.save(news1);
+
+		List<News> actual = newsRepository.findByTextIndexation("Title1");
+		assertEquals(Lists.newArrayList(news1), actual);
+	}
+
+	@Test
+	public void testFindByTextIndexation_FindMultipleByTitle() {
+		// Regenerate text index in Mongo (due to drop and recreate Mongo
+		// database for each tests)
+		createMongoIndexForClass(News.class);
+
+		News news1 = new News();
+		news1.setAuthor(user);
+		news1.setCategory(category);
+		news1.setContent("Content news1");
+		news1.setTags(Lists.newArrayList("tag1", "tag2"));
+		news1.setTitle("Title 1");
+		news1 = newsRepository.save(news1);
+
+		News news2 = new News();
+		news2.setAuthor(user);
+		news2.setCategory(category);
+		news2.setContent("Content news2 tag2");
+		news2.setTags(Lists.newArrayList("tag2"));
+		news2.setTitle("Title 2");
+		news2 = newsRepository.save(news2);
+
+		List<News> actual = newsRepository.findByTextIndexation("Title");
+		assertEquals(Lists.newArrayList(news1, news2), actual);
+	}
+
+	@Test
+	public void testFindByTextIndexation_FindOneByContent() {
+		// Regenerate text index in Mongo (due to drop and recreate Mongo
+		// database for each tests)
+		createMongoIndexForClass(News.class);
+
+		News news1 = new News();
+		news1.setAuthor(user);
+		news1.setCategory(category);
+		news1.setContent("Content news1");
+		news1.setTags(Lists.newArrayList("tag1", "tag2"));
+		news1.setTitle("Title1");
+		news1 = newsRepository.save(news1);
+
+		List<News> actual = newsRepository.findByTextIndexation("news1");
+		assertEquals(Lists.newArrayList(news1), actual);
+	}
+
+	@Test
+	public void testFindByTextIndexation_FindMultipleByContent() {
+		// Regenerate text index in Mongo (due to drop and recreate Mongo
+		// database for each tests)
+		createMongoIndexForClass(News.class);
+
+		News news1 = new News();
+		news1.setAuthor(user);
+		news1.setCategory(category);
+		news1.setContent("Content news1");
+		news1.setTags(Lists.newArrayList("tag1", "tag2"));
+		news1.setTitle("Title1");
+		news1 = newsRepository.save(news1);
+
+		News news2 = new News();
+		news2.setAuthor(user);
+		news2.setCategory(category);
+		news2.setContent("Content news2");
+		news2.setTags(Lists.newArrayList("tag2"));
+		news2.setTitle("Title2");
+		news2 = newsRepository.save(news2);
+
+		List<News> actual = newsRepository.findByTextIndexation("Content");
+		assertEquals(Lists.newArrayList(news1, news2), actual);
+	}
+
+	@Test
+	public void testFindByTextIndexation_FindOneByTag() {
+		// Regenerate text index in Mongo (due to drop and recreate Mongo
+		// database for each tests)
+		createMongoIndexForClass(News.class);
+
+		News news1 = new News();
+		news1.setAuthor(user);
+		news1.setCategory(category);
+		news1.setContent("Content news1");
+		news1.setTags(Lists.newArrayList("tag1", "tag2"));
+		news1.setTitle("Title1");
+		news1 = newsRepository.save(news1);
+
+		List<News> actual = newsRepository.findByTextIndexation("tag1");
+		assertEquals(Lists.newArrayList(news1), actual);
+	}
+
+	@Test
+	public void testFindByTextIndexation_FindMultipleByTag() {
+		// Regenerate text index in Mongo (due to drop and recreate Mongo
+		// database for each tests)
+		createMongoIndexForClass(News.class);
+
+		News news1 = new News();
+		news1.setAuthor(user);
+		news1.setCategory(category);
+		news1.setContent("Content news1");
+		news1.setTags(Lists.newArrayList("tag1", "tag2"));
+		news1.setTitle("Title1");
+		news1 = newsRepository.save(news1);
+
+		News news2 = new News();
+		news2.setAuthor(user);
+		news2.setCategory(category);
+		news2.setContent("Content news2");
+		news2.setTags(Lists.newArrayList("tag2"));
+		news2.setTitle("Title2");
+		news2 = newsRepository.save(news2);
+
+		List<News> actual = newsRepository.findByTextIndexation("tag2");
+		assertEquals(Lists.newArrayList(news1, news2), actual);
+	}
+
+	public void createMongoIndexForClass(Class<?> clazz) {
+		MongoPersistentEntityIndexResolver indexResolver = new MongoPersistentEntityIndexResolver(
+				mongoMappingContext);
+		List<IndexDefinitionHolder> indexes = indexResolver
+				.resolveIndexForClass(clazz);
+		for (IndexDefinitionHolder indexDefinition : indexes) {
+			mongoDbFactory
+					.getDb()
+					.getCollection(indexDefinition.getCollection())
+					.createIndex(indexDefinition.getIndexKeys(),
+							indexDefinition.getIndexOptions());
+		}
+	}
 }

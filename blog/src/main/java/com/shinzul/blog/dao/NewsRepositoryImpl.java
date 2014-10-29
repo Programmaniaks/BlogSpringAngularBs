@@ -9,13 +9,13 @@ import org.springframework.data.mongodb.core.query.TextQuery;
 
 import com.shinzul.blog.entity.News;
 
-public class NewCustomRepositoryImpl implements NewsCustomRepository {
+public class NewsRepositoryImpl implements NewsRepositoryCustom {
 	
 	@Autowired
 	private MongoTemplate mongo;
 	
 	@Override
-	public List<News> customFindByTextIndexation(String searchedText) {
+	public List<News> findByTextIndexation(String searchedText) {
 		TextCriteria criteria = TextCriteria.forDefaultLanguage()
 				  .matchingAny(searchedText);
 		TextQuery textQuery = TextQuery.queryText(criteria).sortByScore();

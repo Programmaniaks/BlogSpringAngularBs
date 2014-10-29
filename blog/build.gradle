@@ -3,20 +3,20 @@ apply plugin: 'eclipse'
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 
-jar {
+war {
     baseName = 'blog'
     version =  '0.0.1-SNAPSHOT'
 }
 
-repositories {
-    mavenCentral()
-}
 eclipse {
 	classpath {
-	    //default settings for downloading sources and Javadoc:
-	    downloadSources = true
-	    downloadJavadoc = false
+	    downloadSources=true
+	    downloadJavadoc=true
   	}
+}
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
@@ -28,8 +28,8 @@ dependencies {
     compile 'org.springframework.security:spring-security-config:3.2.5.RELEASE'
 	
 	compile 'org.springframework.data:spring-data-mongodb:1.6.0.RELEASE'
-	compile 'org.springframework.data:spring-data-jpa:1.5.2.RELEASE'
 	
+	//compile 'org.springframework.data:spring-data-jpa:1.5.2.RELEASE'
 	//compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
 	
 	compile 'com.fasterxml.jackson.core:jackson-annotations:2.2.2'
