@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MvcResult;
 
+import com.google.common.collect.Lists;
 import com.shinzul.blog.entity.User;
 import com.shinzul.blog.service.UserService;
 
@@ -49,11 +50,13 @@ public class TestUserControllerAsWebservice extends AbstractWebserviceTest {
 		userReturn.setPassword("azerty01");
 		userReturn.setId(BigInteger.valueOf(123));
 		userReturn.setEmail("shinzul@programmaniaks.com");
+		userReturn.setRoles(Lists.newArrayList());
 
 		when(userService.connect(user)).thenReturn(userReturn);
 		String expectedReturn = "{\"id\":\"" + userReturn.getId() + "\",\"username\":\""
 				+ userReturn.getUsername() + "\",\"password\":\"" + userReturn.getPassword()
-				+ "\",\"email\":\"" + userReturn.getEmail() + "\"}";
+				+ "\",\"email\":\"" + userReturn.getEmail() + "\",\"roles\":[]}";
+//		String expectedReturn = JSON.serialize(userReturn);
 
 		String request = "{\"username\":\"" + user.getUsername() + "\",\"password\":\""
 				+ user.getPassword() + "\"}";

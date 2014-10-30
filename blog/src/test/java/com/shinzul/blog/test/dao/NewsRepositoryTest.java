@@ -9,16 +9,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.MongoDbFactory;
-import org.springframework.data.mongodb.core.index.MongoPersistentEntityIndexResolver;
-import org.springframework.data.mongodb.core.index.MongoPersistentEntityIndexResolver.IndexDefinitionHolder;
-import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.google.common.collect.Lists;
-import com.mongodb.Mongo;
 import com.shinzul.blog.configuration.DatabaseConfig;
 import com.shinzul.blog.dao.CategoryRepository;
 import com.shinzul.blog.dao.NewsRepository;
@@ -30,8 +24,11 @@ import com.shinzul.blog.test.configuration.TestPropertyConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { TestPropertyConfig.class,
-		DatabaseConfig.class })
+		DatabaseConfig.class, TestDataset.class })
 public class NewsRepositoryTest {
+
+	@Autowired
+	TestDataset dataset;
 
 	@Autowired
 	NewsRepository newsRepository;
@@ -39,23 +36,6 @@ public class NewsRepositoryTest {
 	UserRepository userRepository;
 	@Autowired
 	CategoryRepository categoryRepository;
-
-	/**
-	 * MongoDB Java client
-	 */
-	@Autowired
-	Mongo mongo;
-	@Autowired
-	MongoDbFactory mongoDbFactory;
-	@Autowired
-	MongoMappingContext mongoMappingContext;
-
-	/**
-	 * MongoDb Database name determined by test resource
-	 * {@link TestPropertyConfig}
-	 */
-	@Value("${datasource.dbname}")
-	String databaseName;
 
 	User user;
 	Category category;
@@ -65,15 +45,11 @@ public class NewsRepositoryTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		// Drop database
-		mongo.dropDatabase(databaseName);
-		// Create database
-		mongo.getDB(databaseName);
+		dataset.resetDatabase();
 
 		User userTmp = new User();
 		userTmp.setUsername("username");
 		userTmp.setPassword("password");
-
 		user = userRepository.save(userTmp);
 
 		Category categoryTmp = new Category();
@@ -106,7 +82,7 @@ public class NewsRepositoryTest {
 
 		expected.setTitle("ModifiedTitle");
 		expected = newsRepository.save(expected);
-		
+
 		News actual = newsRepository.findOne(expected.getId());
 
 		assertEquals(expected, actual);
@@ -142,7 +118,7 @@ public class NewsRepositoryTest {
 	public void testFindByTextIndexation_FindOneByTitle() {
 		// Regenerate text index in Mongo (due to drop and recreate Mongo
 		// database for each tests)
-		createMongoIndexForClass(News.class);
+		dataset.createMongoIndexForClass(News.class);
 
 		News news1 = new News();
 		news1.setAuthor(user);
@@ -160,7 +136,7 @@ public class NewsRepositoryTest {
 	public void testFindByTextIndexation_FindMultipleByTitle() {
 		// Regenerate text index in Mongo (due to drop and recreate Mongo
 		// database for each tests)
-		createMongoIndexForClass(News.class);
+		dataset.createMongoIndexForClass(News.class);
 
 		News news1 = new News();
 		news1.setAuthor(user);
@@ -186,7 +162,7 @@ public class NewsRepositoryTest {
 	public void testFindByTextIndexation_FindOneByContent() {
 		// Regenerate text index in Mongo (due to drop and recreate Mongo
 		// database for each tests)
-		createMongoIndexForClass(News.class);
+		dataset.createMongoIndexForClass(News.class);
 
 		News news1 = new News();
 		news1.setAuthor(user);
@@ -204,7 +180,7 @@ public class NewsRepositoryTest {
 	public void testFindByTextIndexation_FindMultipleByContent() {
 		// Regenerate text index in Mongo (due to drop and recreate Mongo
 		// database for each tests)
-		createMongoIndexForClass(News.class);
+		dataset.createMongoIndexForClass(News.class);
 
 		News news1 = new News();
 		news1.setAuthor(user);
@@ -230,7 +206,7 @@ public class NewsRepositoryTest {
 	public void testFindByTextIndexation_FindOneByTag() {
 		// Regenerate text index in Mongo (due to drop and recreate Mongo
 		// database for each tests)
-		createMongoIndexForClass(News.class);
+		dataset.createMongoIndexForClass(News.class);
 
 		News news1 = new News();
 		news1.setAuthor(user);
@@ -248,7 +224,7 @@ public class NewsRepositoryTest {
 	public void testFindByTextIndexation_FindMultipleByTag() {
 		// Regenerate text index in Mongo (due to drop and recreate Mongo
 		// database for each tests)
-		createMongoIndexForClass(News.class);
+		dataset.createMongoIndexForClass(News.class);
 
 		News news1 = new News();
 		news1.setAuthor(user);
@@ -270,17 +246,4 @@ public class NewsRepositoryTest {
 		assertEquals(Lists.newArrayList(news1, news2), actual);
 	}
 
-	public void createMongoIndexForClass(Class<?> clazz) {
-		MongoPersistentEntityIndexResolver indexResolver = new MongoPersistentEntityIndexResolver(
-				mongoMappingContext);
-		List<IndexDefinitionHolder> indexes = indexResolver
-				.resolveIndexForClass(clazz);
-		for (IndexDefinitionHolder indexDefinition : indexes) {
-			mongoDbFactory
-					.getDb()
-					.getCollection(indexDefinition.getCollection())
-					.createIndex(indexDefinition.getIndexKeys(),
-							indexDefinition.getIndexOptions());
-		}
-	}
 }

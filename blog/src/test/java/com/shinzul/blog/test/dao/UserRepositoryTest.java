@@ -10,19 +10,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.google.common.collect.Lists;
-import com.mongodb.Mongo;
 import com.shinzul.blog.configuration.DatabaseConfig;
 import com.shinzul.blog.dao.UserRepository;
 import com.shinzul.blog.entity.User;
 import com.shinzul.blog.test.configuration.TestPropertyConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { TestPropertyConfig.class, DatabaseConfig.class })
+@ContextConfiguration(classes = { TestPropertyConfig.class, DatabaseConfig.class, TestDataset.class})
 public class UserRepositoryTest {
 
 	/**
@@ -31,28 +29,15 @@ public class UserRepositoryTest {
 	@Autowired
 	UserRepository userRepository;
 
-	/**
-	 * MongoDB Java client
-	 */
 	@Autowired
-	Mongo mongo;
-
-	/**
-	 * MongoDb Database name determined by test resource
-	 * {@link TestPropertyConfig}
-	 */
-	@Value("${datasource.dbname}")
-	String databaseName;
+	TestDataset testDataset;
 
 	/**
 	 * Initialize MongoDB with Java client
 	 */
 	@Before
 	public void setUp() throws Exception {
-		// Drop database
-		mongo.dropDatabase(databaseName);
-		// Create database
-		mongo.getDB(databaseName);
+		testDataset.resetDatabase();
 	}
 
 	/**
@@ -112,7 +97,7 @@ public class UserRepositoryTest {
 	 */
 	// @After
 	public void after() {
-		mongo.dropDatabase(databaseName);
+		testDataset.dropDatabase();
 	}
 
 }
