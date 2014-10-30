@@ -100,6 +100,11 @@ public class NewsServiceImpl implements NewsService {
 		
 		return getNewsRepository().save(news);
 	}
+	
+	@Override
+	public List<News> searchPaged(String tag, int page, int size) {
+		return newsRepository.findByTextIndexation(tag, page, size);
+	}
 
 	@Override
 	public News update(News news) {

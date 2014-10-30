@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.data.mongodb.core.query.TextQuery;
 
@@ -15,10 +16,10 @@ public class NewsRepositoryImpl implements NewsRepositoryCustom {
 	private MongoTemplate mongo;
 	
 	@Override
-	public List<News> findByTextIndexation(String searchedText) {
+	public List<News> findByTextIndexation(String searchedText, int pageId, int pageSize) {
 		TextCriteria criteria = TextCriteria.forDefaultLanguage()
 				  .matchingAny(searchedText);
-		TextQuery textQuery = TextQuery.queryText(criteria).sortByScore();
+		Query textQuery =  TextQuery.queryText(criteria).sortByScore().skip(pageId * pageSize).limit(pageSize);
 		return getMongo().find(textQuery, News.class);
 	}
 

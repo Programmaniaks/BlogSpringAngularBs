@@ -9,7 +9,4 @@ angular.module('blogApp').controller('NavigationController', ['$scope', '$http',
 	    	 $log.error('Error while calling CatgeoryService');
 	     });
     
-    $scope.search = function() {
-    	alert("Launch search into articles");
-    };
 }]);

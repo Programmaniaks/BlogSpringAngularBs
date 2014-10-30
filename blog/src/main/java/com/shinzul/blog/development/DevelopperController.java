@@ -1,9 +1,14 @@
 package com.shinzul.blog.development;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.core.index.MongoPersistentEntityIndexResolver;
+import org.springframework.data.mongodb.core.index.MongoPersistentEntityIndexResolver.IndexDefinitionHolder;
+import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,6 +37,10 @@ public class DevelopperController {
 	@Autowired
 	private Mongo mongo;
 	@Autowired
+	private MongoDbFactory mongoDbFactory;
+	@Autowired
+	private MongoMappingContext mongoMappingContext;
+	@Autowired
 	private DatabaseConfig databaseConfig;
 	
 	public DevelopperController() {
@@ -44,6 +53,18 @@ public class DevelopperController {
 		
 		mongo.dropDatabase(databaseConfig.getDatabaseName());
 		mongo.getDB(databaseConfig.getDatabaseName());
+		
+		MongoPersistentEntityIndexResolver indexResolver = new MongoPersistentEntityIndexResolver(
+				mongoMappingContext);
+		List<IndexDefinitionHolder> indexes = indexResolver
+				.resolveIndexForClass(News.class);
+		for (IndexDefinitionHolder indexDefinition : indexes) {
+			mongoDbFactory
+					.getDb()
+					.getCollection(indexDefinition.getCollection())
+					.createIndex(indexDefinition.getIndexKeys(),
+							indexDefinition.getIndexOptions());
+		}
 		
 		User user = new User();
 		user.setUsername("Shinzul");

@@ -21,10 +21,11 @@
 	
 	<form class="navbar-form navbar-right" role="search">
         <div class="form-group">
-        	<input type="text" class="form-control" placeholder="Search">
-         	<button ng-click="search()" type="submit" class="btn btn-primary">
-			  <i class="glyphicon glyphicon-search"></i> 
-			</button>
+        	<input ng-model="tagSearch" type="text" class="form-control" placeholder="Search">
+        	<a class="btn btn-primary" ng-href="#/search/{{tagSearch}}/0"><i class="glyphicon glyphicon-search"></i> </a>
+         	<!-- <button ng-click="search()" type="submit" class="btn btn-primary">
+			  
+			</button> -->
         </div>
      </form>
 	

@@ -128,7 +128,7 @@ public class NewsRepositoryTest {
 		news1.setTitle("Title1");
 		news1 = newsRepository.save(news1);
 
-		List<News> actual = newsRepository.findByTextIndexation("Title1");
+		List<News> actual = newsRepository.findByTextIndexation("Title1", 0, 5);
 		assertEquals(Lists.newArrayList(news1), actual);
 	}
 
@@ -154,7 +154,7 @@ public class NewsRepositoryTest {
 		news2.setTitle("Title 2");
 		news2 = newsRepository.save(news2);
 
-		List<News> actual = newsRepository.findByTextIndexation("Title");
+		List<News> actual = newsRepository.findByTextIndexation("Title", 0, 5);
 		assertEquals(Lists.newArrayList(news1, news2), actual);
 	}
 
@@ -172,7 +172,7 @@ public class NewsRepositoryTest {
 		news1.setTitle("Title1");
 		news1 = newsRepository.save(news1);
 
-		List<News> actual = newsRepository.findByTextIndexation("news1");
+		List<News> actual = newsRepository.findByTextIndexation("news1", 0, 5);
 		assertEquals(Lists.newArrayList(news1), actual);
 	}
 
@@ -198,7 +198,7 @@ public class NewsRepositoryTest {
 		news2.setTitle("Title2");
 		news2 = newsRepository.save(news2);
 
-		List<News> actual = newsRepository.findByTextIndexation("Content");
+		List<News> actual = newsRepository.findByTextIndexation("Content", 0, 5);
 		assertEquals(Lists.newArrayList(news1, news2), actual);
 	}
 
@@ -216,7 +216,7 @@ public class NewsRepositoryTest {
 		news1.setTitle("Title1");
 		news1 = newsRepository.save(news1);
 
-		List<News> actual = newsRepository.findByTextIndexation("tag1");
+		List<News> actual = newsRepository.findByTextIndexation("tag1", 0, 5);
 		assertEquals(Lists.newArrayList(news1), actual);
 	}
 
@@ -242,7 +242,7 @@ public class NewsRepositoryTest {
 		news2.setTitle("Title2");
 		news2 = newsRepository.save(news2);
 
-		List<News> actual = newsRepository.findByTextIndexation("tag2");
+		List<News> actual = newsRepository.findByTextIndexation("tag2", 0, 5);
 		assertEquals(Lists.newArrayList(news1, news2), actual);
 	}
 

@@ -6,6 +6,6 @@ import com.shinzul.blog.entity.News;
 
 public interface NewsRepositoryCustom {
 	
-	public List<News> findByTextIndexation(String searchedText);
+	public List<News> findByTextIndexation(String searchedText, int pageId, int pageSize);
 
 }

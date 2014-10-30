@@ -10,6 +10,9 @@ angular.module('blogApp').config([ '$routeProvider', function($routeProvider) {
 	}).when('/page/:pageId', {
 		templateUrl : 'partials/newsPaged.html',
 		controller: 'PageNewsController'
+	}).when('/search/:tag/:pageId', {
+		templateUrl : 'partials/newsPaged.html',
+		controller: 'PageNewsController'
 	}).when('/news/:newsId', {
 		templateUrl : 'partials/news.html',
 		controller: 'NewsController'

@@ -28,5 +28,7 @@ public interface NewsService {
 	public List<News> findByCategory(Category category);
 
 	public void delete(BigInteger id);
+	
+	public List<News> searchPaged(String tag, int page, int size);
 
 }
