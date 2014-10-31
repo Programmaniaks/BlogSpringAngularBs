@@ -4,18 +4,24 @@
 	<h1>
 		<a href="#/news/{{new.id}}">{{new.title}}</a>
 	</h1>
-	<span class="lead">
-		by <a href="">{{new.author.username}}</a>
-	</span>
-	<span class="pull-right news-creationdate"><span class="glyphicon glyphicon-time"></span> Posted on {{new.creationDate}}</span>
-	<hr>
+	<div class="clearfix">
+		<span class="lead pull-left">
+			by <a href="">{{new.author.username}}</a>
+		</span>
+		<span class="pull-right news-creationdate"><span class="glyphicon glyphicon-time"></span> Posted on {{new.creationDate}}</span>
+	</div>
+	
 	<p>{{new.content}}</p>
+	
+	<ul class="list-inline tags-news-footer">
+		<li>Tags :</li>
+		<li ng-repeat="tag in new.tags" ><em>{{tag}}</em></li>
+	</ul>
 	
 	<p>
 		<a class="btn btn-primary" href="#/news/{{new.id}}">
 			Read More <span class="glyphicon glyphicon-chevron-right"></span>
 		</a>
-		
 	</p>
 	<hr>
 	

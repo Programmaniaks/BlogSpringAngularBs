@@ -91,6 +91,7 @@ public class DevelopperController {
 		news1.setAuthor(user);
 		news1.setCreationDate(new Date());
 		news1.setCategory(devCategory);
+		news1.setTags(Lists.newArrayList("Community", "Java"));
 		
 		News news2 = new News();
 		news2.setTitle("Le ServiceLoader Java EE 6");
@@ -100,6 +101,7 @@ public class DevelopperController {
 		customDate.setYear(2013);
 		news2.setCreationDate(customDate);
 		news2.setCategory(utilCatgory);
+		news2.setTags(Lists.newArrayList("Java", "JEE6"));
 		
 		categoryDao.save(devCategory);
 		categoryDao.save(utilCatgory);

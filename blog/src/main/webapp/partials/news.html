@@ -3,16 +3,20 @@
 	<h1>
 		{{news.title}}
 	</h1>
-	<p class="lead">
-		by <a href="">{{news.author.username}}</a>
-	</p>
+	<div class="clearfix">
+		<span class="lead pull-left">
+			by <a href="">{{news.author.username}}</a>
+		</span>
+		<span class="pull-right news-creationdate"><span class="glyphicon glyphicon-time"></span> Posted on {{news.creationDate}}</span>
+	</div>
 	<hr>
-	<p>
-		<span class="glyphicon glyphicon-time"></span> Posted on
-		{{news.creationDate}}
-	</p>
-	<hr>
-	<!--  <img src="http://placehold.it/900x300" class="img-responsive"> -->
-	<hr>
+	
 	<p>{{news.content}}</p>
+	
+	<hr>
+	<ul class="list-inline tags-news-footer">
+		<li>Tags :</li>
+		<li ng-repeat="tag in news.tags" ><em>{{tag}}</em></li>
+	</ul>
+	
 </div>
