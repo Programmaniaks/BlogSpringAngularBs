@@ -1,12 +1,27 @@
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'war'
-apply plugin: 'eclipse-wtp'
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.3.RELEASE")
+    }
+}
 
-war {
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+// IDE plugins
+apply plugin: 'eclipse'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'idea'
+
+
+jar {
     baseName = 'blog'
     version =  '0.0.1-SNAPSHOT'
 }
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 eclipse {
 	classpath {
@@ -20,6 +35,17 @@ repositories {
 }
 
 dependencies {
+	// Spring-boot
+    // tag::jetty[]
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    compile("org.springframework.boot:spring-boot-starter-jetty")
+    // end::jetty[]
+    // tag::actuator[]
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    // end::actuator[]
+
 	compile 'org.springframework:spring-webmvc:4.0.4.RELEASE'
 	compile 'org.springframework:spring-core:4.0.4.RELEASE'
 	compile 'org.springframework:spring-context:4.0.4.RELEASE'
@@ -42,7 +68,8 @@ dependencies {
 	testCompile 'org.springframework:spring-test:4.0.4.RELEASE'
     testCompile 'junit:junit:4+'
     testCompile 'org.mockito:mockito-all:1.8.4'
-    
-    
-    providedCompile 'javax.servlet:javax.servlet-api:3+'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
 }
